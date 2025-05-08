@@ -1,0 +1,2 @@
+This directory will contain the gesture classifier model files.
+Run the download-models.js script to download the actual model files.

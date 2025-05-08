@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kosmohealth Meeting - Mobile Enhanced</title>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- Base styles -->
+    <link rel="stylesheet" href="css/app.css">
+    
+    <!-- Enhanced meeting styles -->
+    <link rel="stylesheet" href="css/kosmohealth-meeting-enhanced.css">
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Meeting container will be created by the JavaScript -->
+    <div class="rtc-container">
+        <!-- Local video -->
+        <video id="localVideo" autoplay muted playsinline></video>
+        
+        <!-- Remote videos will be added dynamically -->
+        <div class="remote-videos-container"></div>
+    </div>
+    
+    <!-- Face processing container -->
+    <div id="face-processing-container" style="display: none;">
+        <!-- Face processing controls will be added by the component -->
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/face-api.min.js"></script>
+    <script src="js/kosmohealth-meeting-mobile.js"></script>
+    
+    <!-- Demo script to simulate video for testing -->
+    <script>
+        // Simulate video streams for demo purposes
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get local video element
+            const localVideo = document.getElementById('localVideo');
+            
+            // Request user media
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                    .then(function(stream) {
+                        // Set local video stream
+                        localVideo.srcObject = stream;
+                        
+                        // Create some simulated remote participants
+                        createSimulatedParticipants(3);
+                    })
+                    .catch(function(error) {
+                        console.error('Error accessing media devices:', error);
+                    });
+            }
+            
+            // Create simulated remote participants
+            function createSimulatedParticipants(count) {
+                const remoteContainer = document.querySelector('.remote-videos-container');
+                
+                for (let i = 0; i < count; i++) {
+                    // Create video element
+                    const video = document.createElement('video');
+                    video.className = 'remote-video';
+                    video.autoplay = true;
+                    video.playsinline = true;
+                    
+                    // Use the local stream for demo purposes
+                    if (localVideo.srcObject) {
+                        video.srcObject = localVideo.srcObject;
+                    }
+                    
+                    // Add to container
+                    remoteContainer.appendChild(video);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

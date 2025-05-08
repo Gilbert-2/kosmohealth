@@ -1,0 +1,23 @@
+/**
+ * Fix for face processing box on login pages
+ */
+
+/* Hide face processing on login pages */
+.glassmorphism-login .face-processing-wrapper,
+.glassmorphism-login .face-processing-controls,
+.login-card .face-processing-wrapper,
+.login-card .face-processing-controls {
+  display: none !important;
+}
+
+/* Ensure green rectangles are visible */
+.face-processing-canvas {
+  z-index: 10 !important;
+}
+
+/* Make sure the face blur works properly */
+.face-processing-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}

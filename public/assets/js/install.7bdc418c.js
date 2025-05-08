@@ -1,0 +1,1 @@
+import{j as e}from"./app.a373aa59.js";const i="/install";function o(){return e({url:i+"/pre-requisite",method:"get"})}function a(t,r){return e({url:i+"/validate?option="+t,method:"post",data:r})}function s(t){return e({url:i,method:"post",data:t})}export{o as g,s as i,a as v};

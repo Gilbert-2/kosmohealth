@@ -1,0 +1,1 @@
+import{n as e}from"../../_plugin-vue2_normalizer.7b9a2fe2.js";const t={};var s=function(){var n=this;return n._self._c,n._m(0)},r=[function(){var _=this,n=_._self._c;return n("div",[n("h3",[_._v("TERMS")])])}],o=e(t,s,r,!1,null,"71555621",null,null);const i=o.exports;export{i as default};

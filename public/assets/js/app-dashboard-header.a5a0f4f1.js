@@ -1,0 +1,1 @@
+import{A as a}from"./app-page-header-wrapper.7c301931.js";import{n}from"./_plugin-vue2_normalizer.7b9a2fe2.js";const o={components:{AppPageHeaderWrapper:a},computed:{}};var s=function(){var r=this,e=r._self._c;return e("app-page-header-wrapper",{staticClass:"for-dashboard"},[r._t("default")],2)},p=[],t=n(o,s,p,!1,null,null,null,null);const d=t.exports;export{d as A};

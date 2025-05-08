@@ -1,0 +1,7 @@
+{
+    "debug": false,
+    "port": 6002,
+    "appManager.driver": "mysql",
+    "appManager.mysql.table": "soketi_apps",
+    "appManager.mysql.useMysql2": true
+}

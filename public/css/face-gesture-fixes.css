@@ -1,0 +1,73 @@
+/**
+ * Face Processing and Gesture Recognition Fixes
+ * This CSS file fixes issues with face tracking, blur, and gesture recognition
+ */
+
+/* Fix z-index for face processing canvas to ensure it's visible */
+.face-processing-canvas {
+  z-index: 30 !important; /* Higher z-index to ensure visibility */
+  pointer-events: none !important; /* Allow clicking through the canvas */
+}
+
+/* Fix z-index for gesture recognition canvas */
+.gesture-recognition-canvas {
+  z-index: 31 !important; /* Higher than face processing canvas */
+  pointer-events: none !important; /* Allow clicking through the canvas */
+}
+
+/* Ensure controls are above the canvas but don't block interaction */
+.face-processing-controls,
+.gesture-recognition-controls {
+  z-index: 1050 !important; /* Higher than most elements */
+  pointer-events: auto !important; /* Allow interaction with controls */
+}
+
+/* Fix for draggable components */
+.draggable {
+  cursor: move !important;
+  user-select: none !important;
+}
+
+/* Ensure green rectangle is visible */
+.face-detection-box {
+  stroke: #00FF00 !important;
+  stroke-width: 3px !important;
+  fill: transparent !important;
+}
+
+/* Fix for gesture interpreter panel */
+.gesture-interpreter {
+  z-index: 1050 !important; /* Ensure it's above other elements */
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2) !important; /* Better visibility */
+}
+
+/* Fix for gesture info panel */
+.gesture-info {
+  z-index: 1050 !important; /* Ensure it's above other elements */
+}
+
+/* Fix for message display */
+.gesture-message-display {
+  z-index: 1050 !important; /* Ensure it's above other elements */
+}
+
+/* Fix for video container to ensure proper positioning */
+.video-container, 
+.meeting-video-container,
+.rtc-video-container {
+  position: relative !important; /* Ensure absolute positioning works inside */
+}
+
+/* Fix for mobile view */
+@media (max-width: 768px) {
+  .face-processing-controls,
+  .gesture-recognition-controls {
+    bottom: 80px !important; /* Adjust for mobile footer */
+  }
+  
+  .gesture-interpreter {
+    width: 90% !important; /* Make it more compact on mobile */
+    left: 5% !important;
+    right: 5% !important;
+  }
+}

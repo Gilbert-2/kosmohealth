@@ -1,0 +1,37 @@
+<!-- Meeting Fixes -->
+<!-- Include this file in your meeting page to apply all fixes -->
+
+<!-- CSS fixes -->
+<link rel="stylesheet" href="/css/meeting-fixes.css">
+
+<!-- JavaScript fixes -->
+<script src="/js/meeting-fixes.js"></script>
+
+<!-- Inline script to ensure fixes are applied immediately -->
+<script>
+  // Apply z-index fix to meeting footer immediately
+  (function() {
+    // Find the meeting footer
+    const footer = document.querySelector('.meeting-footer');
+    if (footer) {
+      // Set z-index
+      footer.style.zIndex = '1050';
+    }
+    
+    // Apply the fix again when the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      const footer = document.querySelector('.meeting-footer');
+      if (footer) {
+        footer.style.zIndex = '1050';
+      }
+    });
+    
+    // Apply the fix again after a short delay to ensure it works
+    setTimeout(function() {
+      const footer = document.querySelector('.meeting-footer');
+      if (footer) {
+        footer.style.zIndex = '1050';
+      }
+    }, 1000);
+  })();
+</script>

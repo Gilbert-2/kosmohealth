@@ -1,0 +1,1 @@
+import{n as _}from"./_plugin-vue2_normalizer.7b9a2fe2.js";const n={};var r=function(){var e=this,a=e._self._c;return a("div",{staticClass:"page-header"},[a("div",{staticClass:"container-fluid"},[e._t("default")],2)])},t=[],s=_(n,r,t,!1,null,"230ece9c",null,null);const l=s.exports;export{l as A};

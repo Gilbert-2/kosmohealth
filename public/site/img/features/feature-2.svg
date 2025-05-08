@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="0" y="0" width="400" height="300" rx="20" ry="20" fill="#fff5f8"/>
+  
+  <!-- Face with blur effect -->
+  <circle cx="200" cy="150" r="80" fill="#ffffff" stroke="#ff5c8a" stroke-width="2"/>
+  
+  <!-- Blur effect (pixelated face) -->
+  <rect x="170" y="130" width="20" height="20" fill="#dddddd" opacity="0.8"/>
+  <rect x="190" y="130" width="20" height="20" fill="#cccccc" opacity="0.8"/>
+  <rect x="210" y="130" width="20" height="20" fill="#dddddd" opacity="0.8"/>
+  
+  <rect x="170" y="150" width="20" height="20" fill="#cccccc" opacity="0.8"/>
+  <rect x="190" y="150" width="20" height="20" fill="#dddddd" opacity="0.8"/>
+  <rect x="210" y="150" width="20" height="20" fill="#cccccc" opacity="0.8"/>
+  
+  <rect x="170" y="170" width="20" height="20" fill="#dddddd" opacity="0.8"/>
+  <rect x="190" y="170" width="20" height="20" fill="#cccccc" opacity="0.8"/>
+  <rect x="210" y="170" width="20" height="20" fill="#dddddd" opacity="0.8"/>
+  
+  <!-- Privacy shield icon -->
+  <circle cx="320" cy="150" r="40" fill="#ffffff" stroke="#ff5c8a" stroke-width="2"/>
+  <path d="M 320 120 L 300 135 L 300 170 L 320 185 L 340 170 L 340 135 Z" fill="#ff5c8a" opacity="0.2" stroke="#ff5c8a" stroke-width="2"/>
+  <text x="312" y="160" font-family="Arial" font-size="20" font-weight="bold" fill="#ff5c8a">P</text>
+  
+  <!-- Privacy icon -->
+  <circle cx="60" cy="60" r="30" fill="#ff5c8a" opacity="0.2"/>
+  <text x="45" y="65" font-family="Arial" font-size="14" font-weight="bold" fill="#ff5c8a">🔒</text>
+</svg>

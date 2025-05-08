@@ -1,0 +1,1 @@
+import{n as _}from"./_plugin-vue2_normalizer.7b9a2fe2.js";const r={};var s=function(){var e=this,n=e._self._c;return n("div",{staticClass:"sidebar"},[e._t("default")],2)},t=[],a=_(r,s,t,!1,null,null,null,null);const c=a.exports;export{c as A};

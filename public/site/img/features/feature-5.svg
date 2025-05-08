@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect x="0" y="0" width="400" height="300" rx="20" ry="20" fill="#fff5f8"/>
+  
+  <!-- Video call frame -->
+  <rect x="50" y="50" width="300" height="200" rx="10" ry="10" fill="#ffffff" stroke="#ff5c8a" stroke-width="2"/>
+  
+  <!-- Doctor -->
+  <circle cx="125" cy="100" r="40" fill="#f0f0f0" stroke="#dddddd" stroke-width="1"/>
+  <circle cx="125" cy="85" r="15" fill="#dddddd"/> <!-- Head -->
+  <rect x="110" y="100" width="30" height="40" fill="#dddddd" rx="5" ry="5"/> <!-- Body -->
+  <text x="105" y="155" font-family="Arial" font-size="12" fill="#333333">Doctor</text>
+  
+  <!-- Patient -->
+  <circle cx="275" cy="100" r="40" fill="#f0f0f0" stroke="#dddddd" stroke-width="1"/>
+  <circle cx="275" cy="85" r="15" fill="#dddddd"/> <!-- Head -->
+  <rect x="260" y="100" width="30" height="40" fill="#dddddd" rx="5" ry="5"/> <!-- Body -->
+  <text x="255" y="155" font-family="Arial" font-size="12" fill="#333333">Patient</text>
+  
+  <!-- Connection indicators -->
+  <line x1="175" y1="100" x2="225" y2="100" stroke="#ff5c8a" stroke-width="2" stroke-dasharray="5,5"/>
+  <circle cx="200" cy="100" r="10" fill="#ff5c8a" opacity="0.5"/>
+  
+  <!-- Encryption icon -->
+  <circle cx="200" cy="200" r="20" fill="#ffffff" stroke="#ff5c8a" stroke-width="1"/>
+  <text x="193" y="205" font-family="Arial" font-size="14" font-weight="bold" fill="#ff5c8a">🔒</text>
+  
+  <!-- Low bandwidth indicator -->
+  <rect x="150" y="230" width="100" height="25" rx="12" ry="12" fill="#ffffff" stroke="#ff5c8a" stroke-width="1"/>
+  <text x="155" y="247" font-family="Arial" font-size="12" fill="#ff5c8a">Low bandwidth ready</text>
+</svg>

@@ -1,0 +1,1459 @@
+/* Flo Health Design CSS */
+
+:root {
+  --flo-primary: #ff5c8a;
+  --flo-secondary: #ff3a7a;
+  --flo-accent: #ff7c9c;
+  --flo-light: #fff5f8;
+  --flo-dark: #333333;
+  --flo-text: #333333;
+  --flo-text-light: #666666;
+  --flo-background: #ffffff;
+  --flo-gradient: linear-gradient(135deg, #ff5c8a, #ff3a7a);
+  --flo-font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --flo-border-radius: 10px;
+  --flo-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --flo-transition: all 0.3s ease;
+}
+
+/* Global Styles */
+body.flo-design {
+  font-family: var(--flo-font-family);
+  color: var(--flo-text);
+  background-color: var(--flo-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header Styles */
+.flo-header {
+  background-color: var(--flo-background);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 15px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: var(--flo-transition);
+}
+
+.flo-header.scrolled {
+  padding: 10px 0;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.flo-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flo-logo {
+  display: flex;
+  align-items: center;
+}
+
+.flo-logo a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.flo-logo img {
+  height: 40px;
+  transition: var(--flo-transition);
+}
+
+.flo-logo-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--flo-primary);
+  margin-left: 10px;
+  transition: var(--flo-transition);
+}
+
+.flo-header.scrolled .flo-logo img {
+  height: 35px;
+}
+
+.flo-header.scrolled .flo-logo-text {
+  font-size: 20px;
+}
+
+/* Navigation Styles */
+.flo-nav {
+  display: flex;
+  align-items: center;
+}
+
+.flo-nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.flo-nav-menu li {
+  position: relative;
+  margin: 0 15px;
+}
+
+.flo-nav-menu li a {
+  color: var(--flo-text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 10px 0;
+  display: block;
+  position: relative;
+  transition: var(--flo-transition);
+}
+
+.flo-nav-menu li a:hover,
+.flo-nav-menu li a.active {
+  color: var(--flo-primary);
+}
+
+.flo-nav-menu li a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--flo-gradient);
+  transition: var(--flo-transition);
+}
+
+.flo-nav-menu li a:hover::after,
+.flo-nav-menu li a.active::after {
+  width: 100%;
+}
+
+/* Original Design Link */
+.original-design-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background-color: rgba(67, 97, 238, 0.1);
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.original-design-link i {
+  font-size: 12px;
+}
+
+/* Dropdown Menu */
+.flo-dropdown {
+  position: relative;
+}
+
+.flo-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: var(--flo-background);
+  box-shadow: var(--flo-box-shadow);
+  border-radius: var(--flo-border-radius);
+  padding: 15px 0;
+  min-width: 200px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: var(--flo-transition);
+  z-index: 100;
+}
+
+.flo-dropdown:hover .flo-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.flo-dropdown-menu li {
+  margin: 0;
+  padding: 0;
+}
+
+.flo-dropdown-menu li a {
+  padding: 8px 20px;
+  font-size: 14px;
+  display: block;
+  color: var(--flo-text);
+  transition: var(--flo-transition);
+}
+
+.flo-dropdown-menu li a:hover {
+  background-color: rgba(67, 97, 238, 0.05);
+  color: var(--flo-primary);
+}
+
+/* Action Buttons */
+.flo-action-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.flo-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--flo-transition);
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  font-size: 16px;
+}
+
+.flo-btn-primary {
+  background: var(--flo-gradient);
+  color: white;
+  box-shadow: 0 4px 10px rgba(255, 92, 138, 0.3);
+}
+
+.flo-btn-primary:hover {
+  box-shadow: 0 6px 15px rgba(255, 92, 138, 0.4);
+  transform: translateY(-2px);
+}
+
+.flo-btn-outline {
+  background: transparent;
+  color: var(--flo-primary);
+  border: 1px solid var(--flo-primary);
+  margin-right: 10px;
+}
+
+.flo-btn-outline:hover {
+  background: rgba(255, 92, 138, 0.05);
+  color: var(--flo-secondary);
+}
+
+/* Mobile Menu Toggle */
+.flo-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.flo-menu-toggle span {
+  display: block;
+  width: 25px;
+  height: 2px;
+  background-color: var(--flo-text);
+  margin: 5px 0;
+  transition: var(--flo-transition);
+}
+
+/* Mobile Menu Close Button */
+.flo-nav-close {
+  display: none;
+  width: 100%;
+  text-align: right;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.flo-nav-close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--flo-text);
+  cursor: pointer;
+  padding: 5px;
+}
+
+.flo-nav-close-btn:hover {
+  color: var(--flo-primary);
+}
+
+/* Hero Section */
+.flo-hero {
+  padding: 150px 0 100px;
+  background-color: #fff5f8;
+  position: relative;
+  overflow: hidden;
+}
+
+.flo-hero-content {
+  max-width: 600px;
+  position: relative;
+  z-index: 2;
+}
+
+.flo-hero-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  background: rgba(255, 92, 138, 0.1);
+  color: var(--flo-primary);
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.flo-ratings-stars-small {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  color: var(--flo-primary);
+}
+
+.flo-ratings-stars-small i {
+  color: var(--flo-primary);
+  margin-right: 2px;
+}
+
+.flo-ratings-stars-small span {
+  margin-left: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.flo-hero-subtitle {
+  font-size: 18px;
+  color: var(--flo-text-light);
+  margin-bottom: 30px;
+  line-height: 1.5;
+}
+
+.flo-hero-recommended {
+  margin-top: 30px;
+}
+
+.flo-recommended-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: rgba(255, 92, 138, 0.1);
+  color: var(--flo-primary);
+  border-radius: 30px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.flo-hero h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--flo-dark);
+  line-height: 1.2;
+}
+
+.flo-hero h2 {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 30px;
+  color: var(--flo-text-light);
+  line-height: 1.5;
+}
+
+.flo-hero-trust {
+  margin-top: 40px;
+}
+
+.flo-hero-trust p {
+  font-size: 16px;
+  color: var(--flo-text-light);
+  margin-bottom: 15px;
+}
+
+.flo-hero-trust-badges {
+  display: flex;
+  gap: 20px;
+}
+
+.flo-trust-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flo-trust-badge i {
+  color: var(--flo-primary);
+  font-size: 18px;
+}
+
+.flo-trust-badge span {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--flo-text);
+}
+
+.flo-hero-image {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 50%;
+  max-width: 600px;
+  z-index: 1;
+}
+
+.flo-hero-image-placeholder {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 80%;
+  height: 500px;
+  background: linear-gradient(135deg, rgba(67, 97, 238, 0.1), rgba(63, 55, 201, 0.1));
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  border: 2px dashed rgba(67, 97, 238, 0.3);
+}
+
+.flo-hero-image-content {
+  text-align: center;
+  color: var(--flo-primary);
+}
+
+.flo-hero-image-content i {
+  font-size: 48px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.flo-hero-image-content span {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.flo-hero-app {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flo-app-screen {
+  max-height: 600px;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+  transform: perspective(1000px) rotateY(-5deg);
+  transition: var(--flo-transition);
+}
+
+.flo-app-screen:hover {
+  transform: perspective(1000px) rotateY(0deg);
+}
+
+.flo-hero-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.flo-app-badge {
+  height: 50px;
+  transition: var(--flo-transition);
+}
+
+.flo-app-badge:hover {
+  transform: translateY(-3px);
+}
+
+.flo-app-badge-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  padding: 0 15px;
+  background: var(--flo-gradient);
+  color: white;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: var(--flo-transition);
+}
+
+.flo-app-badge-placeholder:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+}
+
+/* Features Section */
+.flo-features {
+  padding: 80px 0;
+  background-color: #ffffff;
+}
+
+.section-title {
+  margin-bottom: 60px;
+}
+
+.section-title h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--flo-dark);
+}
+
+.section-title h3 {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--flo-dark);
+}
+
+.section-title p {
+  font-size: 18px;
+  max-width: 700px;
+  margin: 0 auto 20px;
+  color: var(--flo-text-light);
+  line-height: 1.6;
+}
+
+/* Features Tabs */
+.flo-features-tabs {
+  position: relative;
+  margin-top: 30px;
+}
+
+.flo-features-content {
+  margin-bottom: 30px;
+}
+
+.flo-feature-item {
+  display: none;
+  padding: 30px;
+  border-radius: var(--flo-border-radius);
+  transition: var(--flo-transition);
+  background-color: #fff;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.flo-feature-item.active {
+  display: block;
+}
+
+.flo-feature-image {
+  margin-bottom: 30px;
+  border-radius: var(--flo-border-radius);
+  overflow: hidden;
+}
+
+.flo-feature-text h3 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--flo-dark);
+}
+
+.flo-feature-text p {
+  color: var(--flo-text-light);
+  margin-bottom: 20px;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.flo-feature-link {
+  color: var(--flo-primary);
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: var(--flo-transition);
+  font-size: 16px;
+  padding: 5px 0;
+  position: relative;
+}
+
+.flo-feature-link:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--flo-gradient);
+  transition: var(--flo-transition);
+}
+
+.flo-feature-link:hover {
+  color: var(--flo-secondary);
+}
+
+.flo-feature-link:hover:after {
+  width: 100%;
+}
+
+.flo-feature-phone {
+  position: relative;
+  width: 300px;
+  height: 600px;
+}
+
+.flo-phone-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #111;
+  border-radius: 40px;
+  padding: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.flo-phone-screen {
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+}
+
+.flo-phone-screen img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  transition: opacity 0.3s ease;
+}
+
+.flo-phone-screen img.active {
+  display: block;
+}
+
+.flo-features-nav {
+  margin-top: 30px;
+}
+
+.flo-features-nav ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.flo-features-nav li {
+  margin: 0 5px;
+}
+
+.flo-features-nav button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: var(--flo-border-radius);
+  cursor: pointer;
+  transition: var(--flo-transition);
+  min-width: 100px;
+}
+
+.flo-features-nav li.active button {
+  background: var(--flo-gradient);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+}
+
+.flo-nav-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.flo-nav-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.flo-feature-card {
+  background-color: white;
+  border-radius: var(--flo-border-radius);
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: var(--flo-box-shadow);
+  transition: var(--flo-transition);
+  height: 100%;
+}
+
+.flo-feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.flo-feature-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: var(--flo-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: white;
+  font-size: 24px;
+}
+
+.flo-feature-card h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--flo-dark);
+}
+
+.flo-feature-card p {
+  color: var(--flo-text-light);
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+/* Benefits Section */
+.flo-benefits {
+  padding: 80px 0;
+  background-color: white;
+}
+
+.flo-benefit-card {
+  background-color: #f8f9fa;
+  border-radius: var(--flo-border-radius);
+  padding: 30px;
+  margin-bottom: 30px;
+  height: 100%;
+  transition: var(--flo-transition);
+}
+
+.flo-benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--flo-box-shadow);
+}
+
+.flo-benefit-icon {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+.flo-benefit-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.flo-benefit-card h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: var(--flo-dark);
+}
+
+.flo-benefit-card p {
+  color: var(--flo-text-light);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.flo-benefit-link {
+  color: var(--flo-primary);
+  font-weight: 500;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: var(--flo-transition);
+}
+
+.flo-benefit-link:hover {
+  color: var(--flo-secondary);
+}
+
+/* Testimonials Section */
+.flo-testimonials {
+  padding: 80px 0;
+  background-color: #fff5f8;
+}
+
+.flo-testimonial-item {
+  background-color: white;
+  border-radius: var(--flo-border-radius);
+  padding: 30px;
+  margin: 15px;
+  position: relative;
+  box-shadow: 0 5px 20px rgba(255, 92, 138, 0.1);
+  transition: var(--flo-transition);
+  border: 1px solid rgba(255, 92, 138, 0.1);
+}
+
+.flo-testimonial-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.flo-testimonial-item p {
+  font-style: italic;
+  margin-bottom: 20px;
+  color: var(--flo-text);
+  line-height: 1.6;
+}
+
+.flo-testimonial-author {
+  display: flex;
+  align-items: center;
+}
+
+.flo-testimonial-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 15px;
+}
+
+.flo-testimonial-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.flo-testimonial-info h4 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: var(--flo-dark);
+}
+
+.flo-testimonial-info span {
+  font-size: 14px;
+  color: var(--flo-text-light);
+}
+
+/* Ratings Section */
+.flo-ratings {
+  margin-top: 60px;
+}
+
+.flo-ratings-wrapper {
+  display: inline-flex;
+  background-color: white;
+  border-radius: var(--flo-border-radius);
+  padding: 30px 50px;
+  box-shadow: 0 5px 20px rgba(255, 92, 138, 0.1);
+  border: 1px solid rgba(255, 92, 138, 0.1);
+}
+
+.flo-ratings-badge {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.flo-ratings-icon {
+  width: 60px;
+  height: 60px;
+}
+
+.flo-ratings-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.flo-ratings-stars-large {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+  color: var(--flo-primary);
+  font-size: 24px;
+}
+
+.flo-ratings-stars-large i {
+  margin: 0 2px;
+}
+
+.flo-ratings-text p {
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: var(--flo-dark);
+}
+
+.flo-store-ratings {
+  display: flex;
+  gap: 15px;
+  font-size: 14px;
+  color: var(--flo-text-light);
+}
+
+.flo-store-ratings span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.flo-store-ratings img {
+  height: 16px;
+}
+
+/* Download Section */
+.flo-download {
+  padding: 80px 0;
+  background-color: white;
+}
+
+.flo-download-content {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.flo-download-qr {
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: var(--flo-box-shadow);
+}
+
+.flo-download-qr img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.flo-download-text {
+  flex-grow: 1;
+}
+
+.flo-download-text p {
+  margin-bottom: 15px;
+  color: var(--flo-text-light);
+  line-height: 1.6;
+}
+
+.flo-download-badges {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.flo-download-badge img {
+  height: 40px;
+  transition: var(--flo-transition);
+}
+
+.flo-download-badge:hover img {
+  transform: translateY(-3px);
+}
+
+.flo-download-image {
+  position: relative;
+  text-align: center;
+}
+
+.flo-download-image img {
+  max-width: 100%;
+  border-radius: var(--flo-border-radius);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Project Section */
+.flo-project {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+}
+
+.flo-project-wrapper {
+  background: var(--flo-gradient);
+  border-radius: var(--flo-border-radius);
+  padding: 60px;
+  color: white;
+  overflow: hidden;
+  position: relative;
+}
+
+.flo-project-content h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.flo-project-content p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  opacity: 0.9;
+}
+
+.flo-project-content .flo-btn-outline {
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.flo-project-content .flo-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.flo-project-image {
+  text-align: center;
+}
+
+.flo-project-image img {
+  max-width: 100%;
+}
+
+/* Articles Section */
+.flo-articles {
+  padding: 80px 0;
+  background-color: white;
+}
+
+.flo-article-card {
+  margin-bottom: 30px;
+  border-radius: var(--flo-border-radius);
+  overflow: hidden;
+  box-shadow: var(--flo-box-shadow);
+  transition: var(--flo-transition);
+}
+
+.flo-article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.flo-article-card a {
+  text-decoration: none;
+  color: var(--flo-text);
+}
+
+.flo-article-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.flo-article-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--flo-transition);
+}
+
+.flo-article-card:hover .flo-article-image img {
+  transform: scale(1.05);
+}
+
+.flo-article-content {
+  padding: 20px;
+}
+
+.flo-article-content h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--flo-dark);
+  line-height: 1.4;
+}
+
+.flo-article-date {
+  font-size: 14px;
+  color: var(--flo-text-light);
+  margin-bottom: 0;
+}
+
+/* CTA Section */
+.flo-cta {
+  padding: 60px 0;
+  background: var(--flo-gradient);
+  color: white;
+  border-radius: 0;
+}
+
+.flo-cta h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.flo-cta p {
+  font-size: 18px;
+  margin-bottom: 0;
+  opacity: 0.9;
+}
+
+.flo-cta .flo-btn-primary {
+  background: white;
+  color: var(--flo-primary);
+  border: none;
+  font-size: 18px;
+  padding: 12px 30px;
+  font-weight: 600;
+}
+
+.flo-cta .flo-btn-primary:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Footer Styles */
+.flo-footer {
+  background-color: #ffffff;
+  padding: 70px 0 20px;
+  color: var(--flo-text);
+  font-size: 14px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.flo-footer-top {
+  margin-bottom: 40px;
+}
+
+.flo-footer-info {
+  margin-bottom: 30px;
+}
+
+.flo-footer-logo {
+  margin-bottom: 20px;
+}
+
+.flo-footer-logo img {
+  height: 40px;
+}
+
+.flo-footer-info p {
+  margin-bottom: 20px;
+  color: var(--flo-text-light);
+  line-height: 1.6;
+}
+
+.flo-social-links {
+  display: flex;
+  gap: 10px;
+}
+
+.flo-social-links a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--flo-gradient);
+  color: white;
+  border-radius: 50%;
+  transition: var(--flo-transition);
+}
+
+.flo-social-links a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+}
+
+.flo-footer h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--flo-dark);
+}
+
+.footer-links {
+  margin-bottom: 30px;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links ul li {
+  margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+  color: var(--flo-text-light);
+  text-decoration: none;
+  transition: var(--flo-transition);
+}
+
+.footer-links ul li a:hover {
+  color: var(--flo-primary);
+  padding-left: 5px;
+}
+
+.flo-footer-bottom {
+  padding-top: 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.copyright {
+  color: var(--flo-text-light);
+}
+
+.footer-links-bottom {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.footer-links-bottom a {
+  color: var(--flo-text-light);
+  text-decoration: none;
+  transition: var(--flo-transition);
+}
+
+.footer-links-bottom a:hover {
+  color: var(--flo-primary);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .flo-nav-menu {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: var(--flo-background);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .flo-nav-menu.active {
+    display: flex;
+  }
+
+  .flo-nav-close {
+    display: block;
+  }
+
+  .flo-nav-menu li {
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .flo-dropdown-menu {
+    position: static;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    padding: 0 0 0 20px;
+    display: none;
+  }
+
+  .flo-dropdown.active .flo-dropdown-menu {
+    display: block;
+  }
+
+  .flo-menu-toggle {
+    display: block;
+  }
+
+  .flo-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .flo-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .flo-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+
+  .flo-hero {
+    padding: 120px 0 80px;
+    text-align: center;
+  }
+
+  .flo-hero-content {
+    max-width: 100%;
+  }
+
+  .flo-hero h1 {
+    font-size: 36px;
+  }
+
+  .flo-hero h2 {
+    font-size: 20px;
+  }
+
+  .flo-hero-image {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 40px auto 0;
+    display: block;
+  }
+
+  .flo-hero-image-placeholder {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin: 40px auto 0;
+    max-width: 400px;
+  }
+
+  .flo-hero-buttons {
+    justify-content: center;
+  }
+
+  .flo-hero-trust {
+    text-align: center;
+  }
+
+  .flo-hero-trust-badges {
+    justify-content: center;
+  }
+
+  .flo-features-content .row {
+    flex-direction: column-reverse;
+  }
+
+  .flo-feature-phone {
+    width: 250px;
+    height: 500px;
+    margin: 0 auto 40px;
+  }
+
+  .flo-download-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .flo-download-qr {
+    margin: 0 auto;
+  }
+
+  .flo-download-badges {
+    justify-content: center;
+  }
+
+  .flo-project-wrapper {
+    padding: 40px 30px;
+  }
+
+  .flo-project-image {
+    margin-top: 30px;
+  }
+
+  .flo-ratings-badge {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .flo-store-ratings {
+    justify-content: center;
+  }
+
+  .footer-links-bottom {
+    justify-content: center;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .flo-action-buttons .flo-btn-outline {
+    display: none;
+  }
+
+  .flo-hero h1 {
+    font-size: 32px;
+  }
+
+  .flo-hero h2 {
+    font-size: 18px;
+  }
+
+  .flo-hero-trust-badges {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .flo-logo img {
+    height: 30px;
+  }
+
+  .flo-hero {
+    padding: 100px 0 60px;
+  }
+
+  .flo-hero h1 {
+    font-size: 28px;
+  }
+
+  .flo-app-badge {
+    height: 40px;
+  }
+
+  .section-title h2 {
+    font-size: 28px;
+  }
+
+  .section-title h3 {
+    font-size: 24px;
+  }
+
+  .flo-features-nav ul {
+    gap: 5px;
+  }
+
+  .flo-features-nav button {
+    padding: 10px;
+    min-width: 80px;
+  }
+
+  .flo-nav-icon {
+    font-size: 20px;
+  }
+
+  .flo-nav-text {
+    font-size: 12px;
+  }
+
+  .flo-feature-phone {
+    width: 200px;
+    height: 400px;
+  }
+
+  .flo-project-wrapper {
+    padding: 30px 20px;
+  }
+
+  .flo-project-content h2 {
+    font-size: 24px;
+  }
+
+  .flo-project-content p {
+    font-size: 16px;
+  }
+
+  .flo-testimonial-item {
+    padding: 20px;
+  }
+
+  .flo-ratings-wrapper {
+    padding: 15px;
+  }
+
+  .flo-cta h2 {
+    font-size: 24px;
+  }
+
+  .flo-cta p {
+    font-size: 16px;
+  }
+}
