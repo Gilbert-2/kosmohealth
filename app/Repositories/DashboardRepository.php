@@ -55,6 +55,8 @@ class DashboardRepository
     public function getStats() : array
     {
         $stats = array();
+        // Total users
+        array_push($stats, $this->getUserStats());
         array_push($stats, $this->getUpcomingMeetings());
         array_push($stats, $this->getHostedMeetings());
         array_push($stats, $this->getAttendedMeetings());
@@ -199,11 +201,18 @@ class DashboardRepository
      */
     public function getCharts()
     {
-        $meetings = $this->meeting->myMeeting()
-            ->isNotCancelled()
+        $query = $this->meeting->isNotCancelled()
             ->where('start_date_time', '>=', Carbon::parse(now())->startOfYear()->toDateTimeString())
-            ->where('start_date_time', '<=', Carbon::parse(now())->endOfYear()->toDateTimeString())
-            ->get();
+            ->where('start_date_time', '<=', Carbon::parse(now())->endOfYear()->toDateTimeString());
+
+        // For non-admin users, restrict to their meetings only
+        if (! \Auth::user()->hasRole('admin')) {
+            $query = $this->meeting->myMeeting()->isNotCancelled()
+                ->where('start_date_time', '>=', Carbon::parse(now())->startOfYear()->toDateTimeString())
+                ->where('start_date_time', '<=', Carbon::parse(now())->endOfYear()->toDateTimeString());
+        }
+
+        $meetings = $query->get();
 
         $dataset = array();
         $labels = array();

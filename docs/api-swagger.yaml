@@ -1,0 +1,37 @@
+openapi: 3.0.3
+info:
+  title: KosmoHealth API
+  version: 1.0.0
+  description: |
+    Minimal OpenAPI spec to bootstrap Swagger UI.
+    Extend this file with your full endpoints as needed.
+servers:
+  - url: http://127.0.0.1:8000
+    description: Local development
+paths:
+  /api/health:
+    get:
+      summary: Health check
+      description: Returns basic status of the backend service.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  message:
+                    type: string
+                    example: Backend is running
+                  timestamp:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+                  database:
+                    type: string
+

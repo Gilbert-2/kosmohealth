@@ -180,11 +180,17 @@ class InviteeRepository
     /**
      * Identify meeting
      *
-     * @param string $identifer
+     * @param string $identifier
      */
-    public function identify($identifer)
+    public function identify($identifier)
     {
-        $meeting = Meeting::with('invitees')->where('meta->identifier', $identifer)->first();
+        // First try to find by UUID (primary method)
+        $meeting = Meeting::with('invitees')->where('uuid', $identifier)->first();
+        
+        // Fallback: try to find by meta->identifier (for backward compatibility)
+        if (!$meeting) {
+            $meeting = Meeting::with('invitees')->where('meta->identifier', $identifier)->first();
+        }
 
         if ($meeting && \Auth::check() && $meeting->getMeta('accessible_via_link')) {
             $this->addYourselfAsInvitee($meeting);

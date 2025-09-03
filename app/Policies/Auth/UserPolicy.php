@@ -10,6 +10,16 @@ class UserPolicy
     use HandlesAuthorization;
 
     /**
+     * Grant all abilities to admin role before other checks.
+     */
+    public function before(User $user, $ability)
+    {
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+    }
+
+    /**
      * Determine whether the user can view all the user
      * @param User $user
      */

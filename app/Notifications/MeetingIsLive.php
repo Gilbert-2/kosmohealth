@@ -52,7 +52,7 @@ class MeetingIsLive extends Notification
             ->body('You can join the meeting now!')
             ->data([
                 'id' => $notification->id,
-                'url' => url('/m/' . $this->meeting->getMeta('identifier'))
+                'url' => url('/m/' . $this->meeting->uuid)
             ]);
     }
 
@@ -67,7 +67,7 @@ class MeetingIsLive extends Notification
         return [
             'title' => $this->meeting->title . ' is live.',
             'body' => 'You can join the meeting now!',
-            'action_url' => url('/m/' . $this->meeting->getMeta('identifier')),
+            'action_url' => url('/m/' . $this->meeting->uuid),
             'created' => Carbon::now()->toIso8601String()
         ];
     }

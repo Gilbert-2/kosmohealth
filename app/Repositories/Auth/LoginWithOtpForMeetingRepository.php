@@ -86,7 +86,9 @@ class LoginWithOtpForMeetingRepository
                 'status'            => UserStatus::ACTIVATED
             ]);
 
-            $user->assignRole('user');
+            if (! $user->roles()->exists()) {
+                $user->assignRole('user');
+            }
 
             $user->validateStatus();
 
@@ -127,7 +129,9 @@ class LoginWithOtpForMeetingRepository
                 'status'            => UserStatus::ACTIVATED
             ]);
 
-            $user->assignRole('user');
+            if (! $user->roles()->exists()) {
+                $user->assignRole('user');
+            }
 
             $user->validateStatus();
 

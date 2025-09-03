@@ -65,7 +65,7 @@ class LoginRepository
             return [
                 'message'        => __('auth.login.logged_in'),
                 'user'           => new AuthUser($user),
-                'token'          => isset($loginData['device_name']) ? $user->createToken($loginData['device_name'])->plainTextToken : null,
+                'token'          => $user->createToken($loginData['device_name'] ?? 'web')->plainTextToken,
                 'two_factor_set' => config('config.auth.two_factor_security') ? true : false,
                 'kyc_required'   => $kycRequired,
                 'login_time'     => now()->toIso8601String(),
@@ -283,9 +283,11 @@ class LoginRepository
     public function logout(): void
     {
         if (Auth::check()) {
+            $user = Auth::user();
+            
             // Log logout activity
             try {
-                UserLoginActivity::where('user_id', Auth::id())
+                UserLoginActivity::where('user_id', $user->id)
                     ->whereNull('logout_at')
                     ->orderBy('created_at', 'desc')
                     ->first()
@@ -294,13 +296,14 @@ class LoginRepository
                 Log::error('Failed to log logout activity: ' . $e->getMessage());
             }
 
-            // Revoke tokens if using Sanctum
+            // Revoke current token if using Sanctum
             if (request()->bearerToken()) {
-                Auth::user()->currentAccessToken()->delete();
+                try {
+                    $user->currentAccessToken()->delete();
+                } catch (\Exception $e) {
+                    Log::error('Failed to delete current access token: ' . $e->getMessage());
+                }
             }
-
-            Auth::user()->logout();
-            Auth::logout();
 
             // Clear any session data related to two-factor auth
             if (session()->has('2fa')) {

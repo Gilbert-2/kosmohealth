@@ -28,7 +28,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Register Period Tracker Services
+        $this->app->singleton(\App\Services\PeriodTrackerService::class, function ($app) {
+            return new \App\Services\PeriodTrackerService();
+        });
+
+        $this->app->singleton(\App\Services\HealthAnalyticsService::class, function ($app) {
+            return new \App\Services\HealthAnalyticsService();
+        });
+
+        $this->app->singleton(\App\Services\AIInsightsService::class, function ($app) {
+            return new \App\Services\AIInsightsService();
+        });
+
+        $this->app->singleton(\App\Services\SecurityAuditService::class, function ($app) {
+            return new \App\Services\SecurityAuditService();
+        });
     }
 
     /**

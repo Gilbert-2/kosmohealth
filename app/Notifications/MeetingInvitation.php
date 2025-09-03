@@ -59,7 +59,7 @@ class MeetingInvitation extends Notification
         $from = DateTime::createFromFormat('Y-m-d H:i', $start_date_time);
         $to = DateTime::createFromFormat('Y-m-d H:i', $end_date_time);
 
-        $url = url('/m/' . $this->meeting->getMeta('identifier'));
+        $url = url('/m/' . $this->meeting->uuid);
 
         $description = new HtmlString("Click to Join Meeting" . "<br>\n" . $url . "<br>\n") . $this->meeting->agenda;
 

@@ -50,7 +50,9 @@ class RegisterRepository
             $user->save();
 
             // Assign default role
-            $user->assignRole('user');
+            if (! $user->roles()->exists()) {
+                $user->assignRole('user');
+            }
 
             DB::commit();
 
@@ -108,12 +110,20 @@ class RegisterRepository
      */
     protected function createUser(array $userData): User
     {
+        // Combine first_name and last_name for the name field
+        $fullName = trim($userData['first_name'] . ' ' . $userData['last_name']);
+        
         return $this->user->create([
-            'name'     => $userData['name'],
-            'email'    => $userData['email'],
-            'username' => $userData['username'],
-            'mobile'   => $userData['mobile'] ?? null,
-            'password' => Hash::make($userData['password']),
+            'name'          => $fullName,
+            'first_name'    => $userData['first_name'],
+            'last_name'     => $userData['last_name'],
+            'email'         => $userData['email'],
+            'username'      => $userData['username'],
+            'mobile'        => $userData['mobile'] ?? null,
+            'phone_number'  => $userData['phone_number'] ?? null,
+            'birth_date'    => $userData['date_of_birth'],
+            'location'      => $userData['location'] ?? null,
+            'password'      => Hash::make($userData['password']),
         ]);
     }
 

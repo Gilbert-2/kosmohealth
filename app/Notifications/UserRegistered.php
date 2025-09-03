@@ -43,7 +43,7 @@ class UserRegistered extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/app/login');
+        $url = url('/api/auth/login');
 
         return (new MailMessage)
                     ->subject('Account Registered | '.config('app.name'))

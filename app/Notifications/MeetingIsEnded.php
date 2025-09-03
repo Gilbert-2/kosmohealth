@@ -52,7 +52,7 @@ class MeetingIsEnded extends Notification
             ->body('Thank you for joining the meeting!')
             ->data([
                 'id' => $notification->id,
-                'url' => url('/m/' . $this->meeting->getMeta('identifier'))
+                'url' => url('/m/' . $this->meeting->uuid)
             ]);
     }
 
@@ -67,7 +67,7 @@ class MeetingIsEnded extends Notification
         return [
             'title' => $this->meeting->title . ' is ended.',
             'body' => 'Thank you for joining the meeting!',
-            'action_url' => url('/m/' . $this->meeting->getMeta('identifier')),
+            'action_url' => url('/m/' . $this->meeting->uuid),
             'created' => Carbon::now()->toIso8601String()
         ];
     }

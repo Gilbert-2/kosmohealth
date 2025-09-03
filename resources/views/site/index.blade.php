@@ -13,8 +13,7 @@
         <!-- Benefits Section -->
         <x-pages.kos-benefits />
 
-        <!-- Testimonials Section -->
-        <x-pages.kos-testimonials />
+        
 
         <!-- Download Section -->
         <x-pages.kos-download />
@@ -27,6 +26,9 @@
 
         <!-- CTA Section -->
         <x-pages.kos-cta />
+        
+        <!-- Desktop/Laptop Platform Showcase -->
+        <x-pages.kos-desktop-showcase />
     </main><!-- End #main -->
 
     <x-layouts.kos-footer />

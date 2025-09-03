@@ -67,6 +67,14 @@ return [
             'days' => 14,
         ],
 
+        'security' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => 'info',
+            'days' => 2555, // 7 years for HIPAA compliance
+            'tap' => [App\Logging\SecurityLogFormatter::class],
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),

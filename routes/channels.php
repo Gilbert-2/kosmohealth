@@ -17,9 +17,13 @@ use App\Enums\MeetingStatus;
 |
 */
 
-// Broadcast::channel('User.{uuid}', function ($user, $uuid) {
-//     return $user && $user->uuid === $uuid;
-// });
+Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
+});
+
+Broadcast::channel('period-tracker.{userId}', function ($user, $userId) {
+    return (int) $user->id === (int) $userId;
+});
 
 //Private Channel for loggedin users
 Broadcast::channel('announcements', function ($user) {

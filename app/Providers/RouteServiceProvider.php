@@ -46,6 +46,7 @@ class RouteServiceProvider extends ServiceProvider
         // Route::namespace($this->namespace)
         //     ->group(base_path('routes/kyc-admin.php'));
 
+        // Load API routes first to prevent web catch-all routes from interfering
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();

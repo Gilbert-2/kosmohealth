@@ -25,12 +25,7 @@
             </div>
             <div class="col-lg-6" data-aos="fade-left">
                 <div class="flo-download-image">
-                    <div class="flo-hero-image-placeholder">
-                        <div class="flo-hero-image-content">
-                            <i class="fas fa-laptop-medical"></i>
-                            <span>Works on all devices</span>
-                        </div>
-                    </div>
+                <img src="/site/img/laptop1.png" style="width:100%; height:auto;" alt="Laptop Mockup Image">
                 </div>
             </div>
         </div>

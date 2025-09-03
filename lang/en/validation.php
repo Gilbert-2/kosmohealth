@@ -9,6 +9,11 @@
   'array' => 'The :attribute must be an array.',
   'attributes' => 
   array (
+    'first_name' => 'first name',
+    'last_name' => 'last name',
+    'phone_number' => 'phone number',
+    'date_of_birth' => 'date of birth',
+    'location' => 'location',
   ),
   'before' => 'The :attribute must be a date before :date.',
   'before_or_equal' => 'The :attribute must be a date before or equal to :date.',
@@ -97,6 +102,7 @@
   'not_regex' => 'The :attribute format is invalid.',
   'numeric' => 'The :attribute must be a number.',
   'password' => 'The password is incorrect.',
+  'phone' => 'The :attribute must be a valid phone number.',
   'present' => 'The :attribute field must be present.',
   'regex' => 'The :attribute format is invalid.',
   'required' => 'The :attribute field is required.',

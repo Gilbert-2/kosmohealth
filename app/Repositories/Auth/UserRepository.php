@@ -168,7 +168,8 @@ class UserRepository
 
     private function isEditable(User $user)
     {
-        if ($user->hasRole('admin')) {
+        // Allow admin users to be updated by other admins
+        if ($user->hasRole('admin') && !auth()->user()->hasRole('admin')) {
             throw ValidationException::withMessages(['message' => trans('user.permission_denied')]);
         }
     }
@@ -199,6 +200,89 @@ class UserRepository
         }
 
         return $user;
+    }
+
+    /**
+     * Update authenticated user profile
+     * @param User $user
+     */
+    public function updateProfile(User $user) : User
+    {
+        $updateData = [];
+
+        // Handle basic profile fields
+        if (request()->filled('first_name')) {
+            $updateData['first_name'] = request('first_name');
+        }
+        
+        if (request()->filled('last_name')) {
+            $updateData['last_name'] = request('last_name');
+        }
+        
+        if (request()->filled('email')) {
+            $updateData['email'] = request('email');
+        }
+        
+        if (request()->filled('username')) {
+            $updateData['username'] = request('username');
+        }
+        
+        if (request()->filled('mobile')) {
+            $updateData['mobile'] = request('mobile');
+        }
+        
+        if (request()->filled('phone_number')) {
+            $updateData['phone_number'] = request('phone_number');
+        }
+        
+        if (request()->has('date_of_birth')) {
+            $dateOfBirth = request('date_of_birth');
+            if ($dateOfBirth !== null && $dateOfBirth !== '') {
+                $updateData['birth_date'] = $dateOfBirth;
+            } else {
+                $updateData['birth_date'] = null;
+            }
+        }
+        
+        if (request()->filled('location')) {
+            $updateData['location'] = request('location');
+        }
+        
+        if (request()->filled('gender')) {
+            $updateData['gender'] = request('gender');
+        }
+
+        // Handle password update
+        if (request()->filled('password')) {
+            $updateData['password'] = bcrypt(request('password'));
+        }
+
+        // Handle avatar upload
+        if (request()->hasFile('avatar')) {
+            $avatar = request()->file('avatar');
+            $avatarName = time() . '_' . $user->id . '.' . $avatar->getClientOriginalExtension();
+            $avatarPath = $avatar->storeAs('public/avatar', $avatarName);
+            $updateData['avatar'] = str_replace('public/', '', $avatarPath);
+        }
+
+        // Update the name field if first_name or last_name changed
+        if (request()->filled('first_name') || request()->filled('last_name')) {
+            $firstName = request('first_name', $user->first_name);
+            $lastName = request('last_name', $user->last_name);
+            $updateData['name'] = trim($firstName . ' ' . $lastName);
+        }
+
+        // Update user with new data
+        if (!empty($updateData)) {
+            $user->update($updateData);
+        }
+
+        // Update contact if email changed
+        if (request()->filled('email')) {
+            $this->updateContact($user);
+        }
+
+        return $user->fresh();
     }
 
     /**

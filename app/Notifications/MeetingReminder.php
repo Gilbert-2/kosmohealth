@@ -49,7 +49,7 @@ class MeetingReminder extends Notification
                     ->line(trans('meeting.reminder.notification_title'))
                     ->line(trans('meeting.reminder.notification_line1', ['title' => $this->meeting->title]))
                     ->line(trans('meeting.reminder.notification_line2', ['date' => CalHelper::showDateTime($this->meeting->start_date_time)]))
-                    ->action(trans('meeting.reminder.notification_cta'), url('/m/' . $this->meeting->getMeta('identifier')))
+                    ->action(trans('meeting.reminder.notification_cta'), url('/m/' . $this->meeting->uuid))
                     ->line(trans('meeting.reminder.notification_footer'));
     }
 

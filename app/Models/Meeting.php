@@ -42,7 +42,8 @@ class Meeting extends Model implements HasMedia
     protected $casts = [
         'meta' => 'array',
         'fee' => 'array',
-        'start_date_time' => 'datetime'
+        // Serialize with timezone to ensure frontend displays correct local time
+        'start_date_time' => 'datetime:Y-m-d\TH:i:sP'
     ];
     protected $table = 'meetings';
     protected $with = ['user', 'category'];
@@ -83,6 +84,21 @@ class Meeting extends Model implements HasMedia
     // Booted
     public static function booted()
     {
+    }
+
+    // Mutator to store meeting start time in UTC consistently
+    public function setStartDateTimeAttribute($value): void
+    {
+        if (empty($value)) {
+            $this->attributes['start_date_time'] = null;
+            return;
+        }
+        try {
+            $dt = Carbon::parse($value);
+            $this->attributes['start_date_time'] = $dt->utc()->format('Y-m-d H:i:s');
+        } catch (\Throwable $e) {
+            $this->attributes['start_date_time'] = $value;
+        }
     }
 
     public function getConfigValue(string $option, bool $is_boolean = false)

@@ -77,5 +77,9 @@ class Kernel extends HttpKernel
         'under_maintenance' => \App\Http\Middleware\UnderMaintenance::class,
         '2fa' => \App\Http\Middleware\TwoFactorSecurity::class,
         'site_enabled' => \App\Http\Middleware\IsSiteEnabled::class,
+        'upload.rate_limit' => \App\Http\Middleware\UploadRateLimit::class,
+        'health_data_access' => \App\Http\Middleware\HealthDataAccessMiddleware::class,
+        'rate_limit' => \App\Http\Middleware\RateLimitMiddleware::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 }

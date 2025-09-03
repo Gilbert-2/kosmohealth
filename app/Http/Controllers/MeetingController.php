@@ -8,6 +8,8 @@ use App\Http\Requests\MeetingRequest;
 use App\Http\Resources\Meeting as MeetingResource;
 use App\Http\Resources\MeetingSummary;
 use App\Repositories\MeetingRepository;
+use App\Models\MeetingEmotion;
+use App\Notifications\MeetingScheduled;
 
 class MeetingController extends Controller
 {
@@ -44,7 +46,45 @@ class MeetingController extends Controller
     {
         $this->authorize('list', Meeting::class);
 
+        // Summary mode for dashboard widget
+        if (request()->boolean('summary')) {
+            $user = auth()->user();
+            $upcomingCount = Meeting::where(function ($q) use ($user) {
+                    $q->where('user_id', $user->id)
+                      ->orWhereHas('invitees', function ($query) use ($user) {
+                          $query->where('user_id', $user->id);
+                      });
+                })
+                ->where('start_date_time', '>', now())
+                ->isScheduled()
+                ->isNotCancelled()
+                ->count();
+
+            return $this->ok(['data' => ['upcoming_count' => $upcomingCount]]);
+        }
+
         return $this->repo->paginate();
+    }
+
+    /**
+     * Get current user's meetings
+     * @get ("/api/user/meetings/my-meetings")
+     * @return array
+     */
+    public function myMeetings()
+    {
+        $user = auth()->user();
+        
+        // Get meetings where the user is the creator or an invitee
+        $meetings = Meeting::where('user_id', $user->id)
+            ->orWhereHas('invitees', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->with(['user', 'invitees.user'])
+            ->orderBy('start_date_time', 'desc')
+            ->paginate();
+
+        return $this->ok($meetings);
     }
 
     /**
@@ -68,6 +108,34 @@ class MeetingController extends Controller
         $meeting = new MeetingResource($meeting);
 
         return $this->success(['message' => __('global.added', ['attribute' => __('meeting.meeting')]), 'meeting' => $meeting]);
+    }
+
+    /**
+     * Resend meeting notification to a specific patient
+     * @post ("/api/meetings/{uuid}/notify")
+     * @param ({
+     *      @Parameter("uuid", type="uuid", required="true", description="Meeting unique id"),
+     *      @Parameter("patient_id", type="integer", required="true", description="Patient user id to notify"),
+     * })
+     * @return array
+     */
+    public function notify(Meeting $meeting)
+    {
+        $this->authorize('update', Meeting::class);
+
+        $meeting->isAccessible(true);
+
+        request()->validate([
+            'patient_id' => 'required|exists:users,id'
+        ]);
+
+        $patient = \App\Models\User::find(request('patient_id'));
+
+        if ($patient) {
+            $patient->notify(new MeetingScheduled($meeting));
+        }
+
+        return $this->success(['message' => __('global.sent', ['attribute' => __('meeting.invitation')])]);
     }
 
     /**

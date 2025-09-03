@@ -42,7 +42,16 @@
 
   <!-- Flo Health Design CSS -->
   <link href="/css/flo-design.css" rel="stylesheet">
+  <link href="/css/flo-footer.css" rel="stylesheet">
+  <link href="/css/kosmo-hero.css" rel="stylesheet">
   <link href="/css/kosmobot-chatbot.css" rel="stylesheet">
+  
+  <!-- Modern Mobile Mockups CSS -->
+  <link href="/css/mobile-mockups.css" rel="stylesheet">
+  
+  <!-- Desktop Showcase CSS -->
+  <link href="/css/kos-desktop-showcase.css" rel="stylesheet">
+  <link href="/css/hero-mockup.css" rel="stylesheet">
   @livewireStyles
   @if(env("GA_TRACKING_ID"))
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -55,7 +64,7 @@
       gtag('config', '{{ env("GA_TRACKING_ID") }}');
     </script>
   @endif
-  
+
 
 </head>
 
@@ -64,7 +73,7 @@
     {{$slot}}
 
   <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
-  <div id="preloader"></div>
+
 
   <!-- Vendor JS Files -->
   <script src="/site/vendor/jquery/jquery.min.js"></script>
@@ -84,11 +93,19 @@
 
   <!-- Flo Health Design JS -->
   <script src="/js/flo-design.js"></script>
+  <script src="/js/kosmo-hero.js"></script>
+  
+  <!-- Modern Mobile Mockups JS -->
+  <script src="/js/mobile-mockups.js"></script>
+  <script src="/js/hero-mockup.js"></script>
+  <script src="/js/mockup-integration.js"></script>
+  
+  <!-- Desktop Showcase JS -->
+  <script src="/js/kos-desktop-showcase.js"></script>
   @livewireScripts
 
   <!-- KosmoBot Chatbot Integration -->
-  <script src="{{ asset('js/kosmobot-chatbot.js') }}"></script>
-  <script src="{{ asset('js/kosmobot-chatbot-fallback.js') }}"></script>
+  <x-chatbot.kosmobot :context="'landing'" />
 </body>
 
 </html>

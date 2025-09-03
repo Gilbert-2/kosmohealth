@@ -47,7 +47,9 @@ class SocialLoginRepository
             $user->meta = ['social_login_provider' => $provider];
             $user->save();
 
-            $user->assignRole('user');
+            if (! $user->roles()->exists()) {
+                $user->assignRole('user');
+            }
 
             $contact = $this->contact->whereEmail($user->email)->first();
 

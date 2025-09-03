@@ -43,7 +43,7 @@ class UserEmailVerification extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = url('/app/verify/' . $this->user->getMeta('activation_token'));
+        $url = url('/api/auth/verify?token=' . $this->user->getMeta('activation_token'));
 
         return (new MailMessage)
                     ->subject('Account Verification | '.config('app.name'))

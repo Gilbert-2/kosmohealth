@@ -68,7 +68,7 @@
         "psr-4": {
             "Tests\\": "tests/"
         },
-        "files": ["tests/Helpers/Helper.php"]
+        "files": []
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

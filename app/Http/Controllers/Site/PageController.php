@@ -82,27 +82,175 @@ class PageController extends Controller
      * @param ({
      *      @Parameter("page", type="string", required="true", description="Page slug"),
      * })
-     * @return PageResource
+     * @return \Illuminate\View\View|\Illuminate\Http\Response
      */
     public function fetch($page)
     {
-        $page = $this->repo->findBySlugOrFail($page);
+        try {
+            // Security: Validate and sanitize the page slug
+            $pageSlug = $this->sanitizeSlug($page);
+            
+            // Find the page with proper error handling
+            $pageModel = $this->repo->findBySlugOrFail($pageSlug);
 
-        if(!$page->status) {
-            return false;
+            // Security: Check if page is published and accessible
+            if (!$pageModel->status) {
+                return $this->handleInactivePage();
+            }
+
+            // Security: Sanitize content with proper HTML cleaning
+            $body = $this->sanitizeContent($pageModel->body);
+            $slug = htmlspecialchars($pageModel->slug, ENT_QUOTES, 'UTF-8');
+            $title = htmlspecialchars($pageModel->title, ENT_QUOTES, 'UTF-8');
+            $meta = $this->sanitizeMeta($pageModel->meta);
+            $parent = $pageModel->parent;
+
+            // Security: Validate template exists and is safe to use
+            $templateName = $this->validateTemplate($pageModel->template);
+            
+            if ($templateName && view()->exists('templates.' . $templateName)) {
+                return view('templates.' . $templateName, compact('body', 'slug', 'title', 'meta', 'parent'))
+                    ->with('pageModel', $pageModel);
+            }
+
+            // Fallback to blank template with proper error handling
+            return view('templates.blank', compact('body', 'slug', 'title', 'meta', 'parent'))
+                ->with('pageModel', $pageModel);
+                
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Log security event for potential scanning attempts
+            \Log::warning('Page not found attempt', [
+                'slug' => $page,
+                'ip' => request()->ip(),
+                'user_agent' => request()->userAgent()
+            ]);
+            
+            return $this->handlePageNotFound();
+            
+        } catch (\Exception $e) {
+            // Log general errors for monitoring
+            \Log::error('Page fetch error', [
+                'slug' => $page,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return $this->handleServerError();
+        }
+    }
+
+    /**
+     * Sanitize page slug for security
+     * 
+     * @param string $slug
+     * @return string
+     */
+    private function sanitizeSlug($slug)
+    {
+        // Remove any potential malicious characters
+        $slug = preg_replace('/[^a-zA-Z0-9\-_\/]/', '', $slug);
+        
+        // Prevent directory traversal
+        $slug = str_replace(['../', '../', '..\\', '..\\\\'], '', $slug);
+        
+        // Limit length to prevent buffer overflow attempts
+        return substr($slug, 0, 255);
+    }
+
+    /**
+     * Sanitize page content with proper HTML cleaning
+     * 
+     * @param string $content
+     * @return string
+     */
+    private function sanitizeContent($content)
+    {
+        // Use the existing clean function with additional security
+        $cleaned = clean($content);
+        
+        // Additional security: Remove potentially dangerous attributes
+        $cleaned = preg_replace('/on\w+\s*=\s*["\'][^"\']*["\']/i', '', $cleaned);
+        
+        // Remove javascript: and data: URIs
+        $cleaned = preg_replace('/(?:javascript|data):\s*[^"\'\s>]*/i', '', $cleaned);
+        
+        return $cleaned;
+    }
+
+    /**
+     * Sanitize meta information
+     * 
+     * @param mixed $meta
+     * @return mixed
+     */
+    private function sanitizeMeta($meta)
+    {
+        if (is_array($meta)) {
+            return array_map(function($value) {
+                return is_string($value) ? htmlspecialchars($value, ENT_QUOTES, 'UTF-8') : $value;
+            }, $meta);
+        }
+        
+        return is_string($meta) ? htmlspecialchars($meta, ENT_QUOTES, 'UTF-8') : $meta;
+    }
+
+    /**
+     * Validate template name for security
+     * 
+     * @param object $template
+     * @return string|null
+     */
+    private function validateTemplate($template)
+    {
+        if (!$template || !isset($template->slug)) {
+            return null;
         }
 
-        $body = clean($page->body);
-        $slug = $page->slug;
-        $title = $page->title;
-        $meta = $page->meta;
-        $parent = $page->parent;
+        // Security: Only allow alphanumeric, dash, and underscore characters
+        $templateSlug = preg_replace('/[^a-zA-Z0-9\-_]/', '', $template->slug);
+        
+        // Prevent directory traversal in template names
+        $templateSlug = str_replace(['../', '../', '..\\'], '', $templateSlug);
+        
+        return $templateSlug;
+    }
 
-        if (view()->exists('templates.' . $page->template->slug)) {
-            return view('templates.' . $page->template->slug, compact('body', 'slug', 'title', 'meta', 'parent'));
+    /**
+     * Handle inactive page requests
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    private function handleInactivePage()
+    {
+        if (config('config.website.show_inactive_page_message', false)) {
+            return response()->view('errors.page-inactive', [], 404);
         }
+        
+        return $this->handlePageNotFound();
+    }
 
-        return view('blank', compact('body', 'slug', 'title', 'meta', 'parent'));
+    /**
+     * Handle page not found with proper error response
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    private function handlePageNotFound()
+    {
+        return response()->view('errors.404', [
+            'message' => 'The requested page could not be found.'
+        ], 404);
+    }
+
+    /**
+     * Handle server errors gracefully
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    private function handleServerError()
+    {
+        return response()->view('errors.500', [
+            'message' => 'An error occurred while loading the page.'
+        ], 500);
     }
 
     /**

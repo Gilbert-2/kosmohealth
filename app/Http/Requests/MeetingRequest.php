@@ -28,7 +28,8 @@ class MeetingRequest extends FormRequest
 
         $rules = [
             'identifier' => 'nullable|alpha_dash',
-            'type'       => 'required|array'
+            // Accept either object with uuid or plain string uuid
+            'type'       => ['required'],
         ];
 
         if (request('instant')) {
@@ -43,7 +44,11 @@ class MeetingRequest extends FormRequest
         $rules['agenda']          = 'required|min:20';
         $rules['start_date_time'] = 'required|date';
         $rules['period']          = 'integer|min:1';
-        $rules['category']        = 'required|array|min:1';
+        // Accept either object with uuid or plain string uuid, allow nullable
+        $rules['category']        = ['nullable'];
+
+        // Optional: patient to notify upon creation
+        $rules['patient_id']      = 'nullable|exists:users,id';
 
         return $rules;
     }

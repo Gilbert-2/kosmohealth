@@ -204,10 +204,15 @@ class ConfigRepository
 
         return collect($default_config)->transform(function ($configs, $key) use ($db_config) {
             $dbValue = Arr::get($db_config, $key, []);
-            // Ensure the value is an array before merging
-            if (!is_array($dbValue)) {
-                $dbValue = [];
+            
+            // Ensure both values are arrays before merging
+            if (!is_array($configs)) {
+                $configs = is_string($configs) ? json_decode($configs, true) ?: [] : [];
             }
+            if (!is_array($dbValue)) {
+                $dbValue = is_string($dbValue) ? json_decode($dbValue, true) ?: [] : [];
+            }
+            
             return array_merge($configs, $dbValue);
         })->all();
     }

@@ -16,7 +16,7 @@
                             </div>
                             <div class="flo-feature-text">
                                 <h3>AI Emotion Recognition</h3>
-                                <p>We use TensorFlow.js and face-api.js to detect faces and recognize emotions like happiness, sadness, anger, or anxiety during live video consultations. This helps health professionals respond more empathetically during sensitive topics.</p>
+                                <p>We use AI to detect faces and recognize emotions like happiness, sadness, anger, or anxiety during live video consultations. This helps health professionals respond more empathetically during sensitive topics.</p>
                                 <a href="/features/emotion-recognition" class="flo-feature-link">Learn more about emotion recognition <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
@@ -67,16 +67,8 @@
                     </div>
 
                     <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center">
-                        <div class="flo-feature-phone" data-aos="fade-left">
-                            <div class="flo-phone-frame">
-                                <div class="flo-phone-screen">
-                                    <img src="/site/img/features/screen-1.png" class="active" data-feature="feature-1" alt="App Screenshot">
-                                    <img src="/site/img/features/screen-2.png" data-feature="feature-2" alt="App Screenshot">
-                                    <img src="/site/img/features/screen-3.png" data-feature="feature-3" alt="App Screenshot">
-                                    <img src="/site/img/features/screen-4.png" data-feature="feature-4" alt="App Screenshot">
-                                    <img src="/site/img/features/screen-5.png" data-feature="feature-5" alt="App Screenshot">
-                                </div>
-                            </div>
+                        <div class="modern-mockup-container" data-aos="fade-left">
+                            <div id="features-mockup"></div>
                         </div>
                     </div>
                 </div>

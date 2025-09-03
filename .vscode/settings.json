@@ -1,0 +1,7 @@
+{
+  "zencoder.enableRepoIndexing": true,
+  "editor.codeActionsOnSave": {},
+  "terminal.integrated.env.windows": {
+    "PATH": "C:\\xampp\\php;${env:PATH}"
+  }
+}

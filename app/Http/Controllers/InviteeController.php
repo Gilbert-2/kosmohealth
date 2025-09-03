@@ -8,6 +8,7 @@ use App\Http\Requests\InviteRequest;
 use App\Models\Meeting;
 use App\Repositories\InviteeRepository;
 use App\Http\Resources\Meeting as MeetingResource;
+use Illuminate\Http\JsonResponse;
 
 class InviteeController extends Controller
 {
@@ -99,53 +100,62 @@ class InviteeController extends Controller
      * @param ({
      *      @Parameter("identifier", type="string", required="true", description="Meeting identifier"),
      * })
-     * @redirect Meeting
+     * @return JsonResponse
      */
     public function goToMeeting($identifier)
     {
         $meeting = $this->repo->identify($identifier);
 
         if (! $meeting) {
-            return view('errors.meeting-not-found');
+            return response()->json([
+                'error' => 'Meeting not found',
+                'message' => 'The meeting with this identifier could not be found.',
+                'identifier' => $identifier
+            ], 404);
         }
 
+        // Check membership requirements
         if ($meeting->getMeta('accessible_to_members') && (! \Auth::check() || ! \Auth::user()->hasActiveMembership())) {
-            $title = trans('general.not_allowed');
-            $error_code = 403;
-            $message = trans('meeting.could_not_join_member_meeting_without_active_membership');
-            $button_text = trans('membership.start_membership');
-            $path = '/app/panel/membership';
-            return view('errors.meeting-not-found', compact('title', 'error_code', 'message', 'button_text', 'path'));
+            return response()->json([
+                'error' => 'Membership required',
+                'message' => 'This meeting requires an active membership to join.',
+                'meeting_id' => $meeting->uuid,
+                'action_required' => 'membership'
+            ], 403);
         }
 
+        // Check payment requirements
         if ($meeting->getFee('is_paid') && (! \Auth::check() || ! $meeting->has_paid)) {
-            $title = trans('general.not_allowed');
-            $error_code = 403;
-            $message = trans('meeting.could_not_join_paid_meeting_without_payment');
-            $button_text = trans('meeting.payment.pay_fee');
-            $path = '/app/panel/meetings/' . $meeting->uuid . '/payment?join=true';
-            return view('errors.meeting-not-found', compact('title', 'error_code', 'message', 'button_text', 'path'));
+            return response()->json([
+                'error' => 'Payment required',
+                'message' => 'This meeting requires payment to join.',
+                'meeting_id' => $meeting->uuid,
+                'action_required' => 'payment'
+            ], 403);
         }
 
-        if (\Auth::check()) {
-            return redirect('/app/live/meetings/' . $meeting->uuid);
-        }
-
-        $login_page_path = '/app/login';
-
-        if(config('config.auth.email_otp_login')) {
-            $login_page_path = '/app/login-email-otp';
-        }
-
-        if(config('config.meeting.enable_pam') && $meeting->getMeta('is_pam')) {
-            if(config('config.meeting.pam_open_join_as_guest_page')) {
-                return redirect('/app/guest/meetings/' . $meeting->uuid . '?identifier='. $identifier);
-            } else {
-                return redirect($login_page_path . '?identifier='. $identifier .'&uuid=' . $meeting->uuid .'&ref=/live/meetings/' . $meeting->uuid . '&pam=true');
-            }
-        }
-
-        return redirect($login_page_path . '?identifier='. $identifier .'&uuid=' . $meeting->uuid .'&ref=/live/meetings/' . $meeting->uuid);
+        // Return meeting information for API consumption
+        return response()->json([
+            'message' => 'Meeting found',
+            'meeting' => [
+                'uuid' => $meeting->uuid,
+                'title' => $meeting->title,
+                'start_date_time' => $meeting->start_date_time,
+                'period' => $meeting->period,
+                'status' => $meeting->getMeta('status'),
+                'is_authenticated' => \Auth::check(),
+                'can_join' => true
+            ],
+            'api_endpoints' => [
+                'join_meeting' => '/api/meetings/' . $meeting->uuid . '/join',
+                'meeting_details' => '/api/meetings/' . $meeting->uuid,
+                'emotion_start' => '/api/meetings/' . $meeting->uuid . '/emotion/start',
+                'emotion_events' => '/api/meetings/' . $meeting->uuid . '/emotion/events',
+                'emotion_end' => '/api/meetings/' . $meeting->uuid . '/emotion/end',
+                'emotion_report' => '/api/meetings/' . $meeting->uuid . '/emotion/report'
+            ],
+            'note' => 'This is an API-only endpoint. Use the provided API endpoints to interact with the meeting.'
+        ]);
     }
 
     /**

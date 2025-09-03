@@ -98,6 +98,7 @@
   'max_report_period_limit_crossed' => 'Max report period limit :attribute days crossed.',
   'menu' => 'Menu',
   'missing_parameter' => 'Missing parameter.',
+  'optional' => 'Optional',
   'module' => 'Module',
   'more_option' => 'More Option',
   'name' => 'Name',

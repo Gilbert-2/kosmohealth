@@ -11,8 +11,12 @@ class PeriodSymptom extends Model
 
     protected $fillable = [
         'user_id',
+        'cycle_id',
         'date',
         'symptom',
+        'flow_intensity',
+        'mood',
+        'notes',
     ];
 
     protected $casts = [
@@ -22,5 +26,10 @@ class PeriodSymptom extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function cycle()
+    {
+        return $this->belongsTo(PeriodCycle::class, 'cycle_id');
     }
 }

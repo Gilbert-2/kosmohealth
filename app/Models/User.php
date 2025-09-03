@@ -7,6 +7,8 @@ use App\Events\UserLogin;
 use App\Traits\HasMeta;
 use App\Traits\HasUuid;
 use App\Models\Contact;
+use App\Models\PeriodCycle;
+use App\Models\PregnancyRecord;
 use App\Traits\ModelOption;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -35,7 +37,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'username', 'password', 'kyc_verified',
+        'name', 'first_name', 'last_name', 'email', 'username', 'mobile', 'phone_number', 'location', 'birth_date', 'password', 'kyc_verified', 'status',
     ];
 
     /**
@@ -54,6 +56,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at'      => 'datetime',
+        'birth_date'             => 'date',
         'membership_expiry_date' => 'date',
         'preference'             => 'array',
         'meta'                   => 'array',
@@ -87,6 +90,32 @@ class User extends Authenticatable
     public function kycVerifications() : HasMany
     {
         return $this->hasMany(KycVerification::class);
+    }
+
+    public function periodCycles() : HasMany
+    {
+        return $this->hasMany(PeriodCycle::class);
+    }
+
+    public function pregnancyRecords() : HasMany
+    {
+        return $this->hasMany(PregnancyRecord::class);
+    }
+
+    /**
+     * Get patients assigned to this host
+     */
+    public function hostPatients() : HasMany
+    {
+        return $this->hasMany(HostPatient::class, 'host_id');
+    }
+
+    /**
+     * Get hosts assigned to this patient
+     */
+    public function patientHosts() : HasMany
+    {
+        return $this->hasMany(HostPatient::class, 'patient_id');
     }
 
     public function getPreference(string $option)

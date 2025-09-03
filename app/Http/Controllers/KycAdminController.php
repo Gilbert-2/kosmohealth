@@ -25,10 +25,18 @@ class KycAdminController extends Controller
 
         // Check if user is admin
         if (!Auth::check() || !Auth::user()->hasRole('admin')) {
-            return redirect('/app/dashboard')->with('error', 'You do not have permission to access this page.');
+            return response()->json(['error' => 'Unauthorized - Admin access required'], 403);
         }
 
-        return view('app');
+        return response()->json([
+            'message' => 'KYC Admin API',
+            'endpoints' => [
+                'get_requests' => '/api/kyc/requests',
+                'approve' => '/api/kyc/approve/{id}',
+                'reject' => '/api/kyc/reject/{id}'
+            ],
+            'note' => 'This is an API-only endpoint. Use the API endpoints for KYC operations.'
+        ]);
     }
 
     /**

@@ -176,6 +176,23 @@ class MeetingRepository
 
         $meeting = $this->meeting->forceCreate($this->formatParams());
 
+        // Notify patient on creation if provided
+        $patientId = request('patient_id');
+        if ($patientId) {
+            try {
+                $patient = \App\Models\User::find($patientId);
+                if ($patient) {
+                    $patient->notify(new \App\Notifications\MeetingScheduled($meeting));
+                }
+            } catch (\Throwable $e) {
+                \Log::warning('MeetingScheduled notification failed', [
+                    'error' => $e->getMessage(),
+                    'patient_id' => $patientId,
+                    'meeting_uuid' => $meeting->uuid,
+                ]);
+            }
+        }
+
         if (request('instant')) {
             $meta = $meeting->meta;
             $meta['config'] = $meta['config'] ?? [];
@@ -201,11 +218,25 @@ class MeetingRepository
     {
         $category = null;
 
-        $type = Arr::get(request('type', []), 'uuid');
-        $category = $this->option->findByUuidOrFail(Arr::get(request('category', []), 'uuid'));
+        // Normalize type input: accept object {uuid} or string uuid
+        $rawType = request('type');
+        $type = is_array($rawType) ? Arr::get($rawType, 'uuid') : $rawType;
+        // Normalize category input: accept object {uuid} or string uuid
+        $rawCategory = request('category');
+        $categoryUuid = is_array($rawCategory) ? Arr::get($rawCategory, 'uuid') : $rawCategory;
+        $category = null;
+        if ($categoryUuid) {
+            try {
+                $category = $this->option->findByUuidOrFail($categoryUuid);
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                // Gracefully ignore unknown category; proceed without it
+                $category = null;
+            }
+        }
 
         if (! in_array($type, ArrHelper::getList('types', 'meeting'))) {
-            throw ValidationException::withMessages(['message' => trans('global.could_not_find', ['attribute' => trans('meeting.props.type')])]);
+            // default to video_conference if invalid or missing
+            $type = 'video_conference';
         }
 
         if (request('identifier')) {

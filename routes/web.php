@@ -49,16 +49,37 @@ Route::get('permission/sync', function() {
 });
 
 Route::get('/', function() {
-    if (config('config.website.enabled')) {
-        return view('site.index');
-    } else {
-        return view('app');
-    }
+    return response()->json([
+        'message' => 'KosmoHealth API Server',
+        'version' => '1.0.0',
+        'status' => 'running',
+        'endpoints' => [
+            'api_docs' => '/api-docs',
+            'meetings' => '/api/meetings',
+            'auth' => '/api/auth',
+            'users' => '/api/users'
+        ],
+        'documentation' => 'Visit /api-docs for complete API documentation'
+    ]);
 });
 
 // Flo Health inspired landing page
 Route::get('/flo', function() {
     return view('site.flo-landing');
+});
+
+// Modern Enhanced Landing Page
+Route::get('/modern', function() {
+    return view('site.modern-landing', [
+        'title' => 'KosmoHealth - Modern Healthcare Platform'
+    ]);
+});
+
+// Enhanced KosmoHealth Landing (can replace main route)
+Route::get('/enhanced', function() {
+    return view('site.modern-landing', [
+        'title' => 'KosmoHealth - Enhanced Healthcare Experience'
+    ]);
 });
 
 Route::middleware('site_enabled')->group(function() {
@@ -318,15 +339,29 @@ Route::get('/whiteboard', function (Request $request) {
     return view('whiteboard');
 });
 
+// API Documentation Routes
+Route::get('/api-docs', function () {
+    return view('api-docs');
+});
+
+Route::get('/docs/api-swagger.yaml', function () {
+    $path = base_path('docs/api-swagger.yaml');
+    if (!file_exists($path)) {
+        abort(404, 'Swagger documentation not found');
+    }
+    return response()->file($path, [
+        'Content-Type' => 'application/x-yaml'
+    ]);
+});
+
 Route::get('/offline', function () {
     return view('offline');
 });
 
-// app route
-
-Route::get('/app/{vue?}', function () {
-    return view('app');
-})->where('vue', '[\/\w\.-]*')->name('app');
+// API-only routes - frontend removed
+// Route::get('/app/{vue?}', function () {
+//     return view('app');
+// })->where('vue', '[\/\w\.-]*')->name('app');
 
 Route::prefix('pages')->namespace('Site')->group(function() {
     Route::get('{page?}', 'PageController@fetch')->where('page', '[\/\w\.-]*');
