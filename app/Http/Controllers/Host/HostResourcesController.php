@@ -30,14 +30,21 @@ class HostResourcesController extends Controller
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string|max:500',
             'body' => 'nullable|string',
+            'image' => 'nullable|image|max:5120',
             'category' => 'nullable|string|max:100',
             'tags' => 'array',
             'read_time' => 'nullable|string|max:50',
             'status' => 'in:draft,published',
         ]);
+        // Handle image upload if present
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('resources', 'public');
+        }
         $res = Resource::create(array_merge($data, [
             'uuid' => (string) Str::uuid(),
             'user_id' => $request->user()->id,
+            'image_path' => $imagePath,
         ]));
         return $this->success(['message' => 'Resource created', 'data' => $res]);
     }
@@ -55,11 +62,15 @@ class HostResourcesController extends Controller
             'title' => 'sometimes|required|string|max:255',
             'excerpt' => 'nullable|string|max:500',
             'body' => 'nullable|string',
+            'image' => 'nullable|image|max:5120',
             'category' => 'nullable|string|max:100',
             'tags' => 'array',
             'read_time' => 'nullable|string|max:50',
             'status' => 'in:draft,published',
         ]);
+        if ($request->hasFile('image')) {
+            $data['image_path'] = $request->file('image')->store('resources', 'public');
+        }
         $res->fill($data)->save();
         return $this->success(['message' => 'Resource updated', 'data' => $res]);
     }

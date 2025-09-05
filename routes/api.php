@@ -75,6 +75,16 @@ Route::prefix('docs')->group(function () {
     Route::get('api.json', 'DocsController@swaggerJson');
 });
 
+// Public health resources (available without auth)
+Route::get('resources', '\App\\Http\\Controllers\\ResourcesController@index');
+Route::get('resources/{uuid}', '\App\\Http\\Controllers\\ResourcesController@show');
+
+// Public backend aliases for Next.js proxy
+Route::prefix('backend')->group(function () {
+    Route::get('resources', '\App\\Http\\Controllers\\ResourcesController@index');
+    Route::get('resources/{uuid}', '\App\\Http\\Controllers\\ResourcesController@show');
+});
+
 Route::group(['middleware' => ['auth:sanctum']], function () {
     // Backend alias prefix for frontend proxy compatibility
     Route::prefix('backend')->group(function () {
@@ -573,9 +583,7 @@ Route::group(['middleware' => ['auth:sanctum', 'under_maintenance']], function (
             Route::delete('{id}', '\App\\Http\\Controllers\\Host\\HostResourcesController@destroy');
         });
     });
-// Public health resources
-Route::get('resources', '\App\\Http\\Controllers\\ResourcesController@index');
-Route::get('resources/{uuid}', '\App\\Http\\Controllers\\ResourcesController@show');
+// (moved public resources above for unauthenticated access)
 
     Route::prefix('meetings/{meeting}')->group(function() {
         Route::post('config', 'MeetingController@config');
@@ -663,9 +671,7 @@ Route::get('resources/{uuid}', '\App\\Http\\Controllers\\ResourcesController@sho
         Route::patch('notifications/{notification}', 'NotificationsController@update');
         Route::delete('notifications/{notification}', 'NotificationsController@destroy');
 
-        // Backend alias for public health resources (used by Next.js proxy)
-        Route::get('resources', '\App\\Http\\Controllers\\ResourcesController@index');
-        Route::get('resources/{uuid}', '\App\\Http\\Controllers\\ResourcesController@show');
+        // (moved backend resources aliases above for unauthenticated access)
 
         // Backend alias for admin user management (browser-friendly under /api/backend)
         Route::prefix('admin')->group(function () {
